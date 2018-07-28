@@ -1,0 +1,22 @@
+const BASE_URL = 'https://api.shutterstock.com/v2'
+export const GET_SEARCH_RESULT = 'GET_SEARCH_RESULT'
+export const GET_SEARCH_RESULT_SUCCESS = 'GET_SEARCH_RESULT_SUCCESS'
+export const GET_SEARCH_RESULT_ERROR = 'GET_SEARCH_RESULT_ERROR'
+export const EMPTY_STORE = 'EMPTY_STORE'
+export const IMAGE_URL_PREFIX = `${BASE_URL}/images/search?query=`
+export const IMAGE_URL_SUFFIX = '&safe=true&image_type=photo&orientation=horizontal&per_page=18&page='
+export const AUTH_TOKEN = 'Basic MzM1MmFlZmZiZDI0ZDMzZjg4NTk6MDk3ZjgzMjI0MmFkMzcxZDlmMDEyNzcwY2FiZGIxZTZjZWJjNDMzYQ=='
+
+export const LOGIN = 'LOGIN'
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS'
+export const LOGIN_ERROR = 'LOGIN_ERROR'
+export const GET_SEARCH_RESULT_MUSIC = 'GET_SEARCH_RESULT_MUSIC'
+export const GET_SEARCH_RESULT_SUCCESS_MUSIC = 'GET_SEARCH_RESULT_SUCCESS_MUSIC'
+export const GET_SEARCH_RESULT_SUCCESS_MUSIC_RESOLVE = 'GET_SEARCH_RESULT_SUCCESS_MUSIC_RESOLVE'
+export const GET_SEARCH_RESULT_ERROR_MUSIC = 'GET_SEARCH_RESULT_ERROR_MUSIC'
+export const MUSIC_API_BASE = 'http://mosaic.nativebyte.in/api/'
+export const MUSIC_SIGNIN = 'auth/signin'
+export const MUSIC_RESOLVE = 'music/'
+export const MUSIC_RESOLVE_SUFFIX = '/content/resolve'
+export const MUSIC_SEARCH = `${MUSIC_RESOLVE}search?q=`
+export const MUSIC_AUTH_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1YTY1NmQ2YTViMzU2NTdlNzA3NWU0NTAiLCJuYW1lIjoiTmF2bmVldCBEd2l2ZWRpIiwicGhvbmUiOm51bGwsImVtYWlsIjoibmF2bmVldEBuYXRpdmVieXRlLmluIiwicGVybWlzc2lvbnMiOltdLCJpYXQiOjE1MzI3NjU4NjAsImV4cCI6MTUzMzM3MDY2MH0.PjBgV34m7uo4LEcmV8WH8u1PzIqnWYhaf_DvXyKFGqs'

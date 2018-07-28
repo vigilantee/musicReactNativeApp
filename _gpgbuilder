@@ -1,0 +1,22 @@
+-----BEGIN PGP SIGNED MESSAGE-----
+Hash: SHA1
+
+Version: 4
+Signer: Zoom Video Communcations, Inc. Linux Package Signing Key <linux-package-signing-key@zoom.us>
+Date: Mon Jul  2 17:48:15 2018
+Role: builder
+Files: 
+	3cf918272ffa5de195752d73f3da3e5e 7959c969e092f2a5a8604e2287807ac5b1b384ad 4 debian-binary
+	39127148ff7b2528dbd948efcdd93cf0 48d3c886bce0b2b4e273d56a0bb5991198161f1e 30963 control.tar.gz
+	b79f69c40181a7be849e98283f231c0d 2363c24d2a93e6b8051f92d2f7b6a6e80d853afd 65374940 data.tar.xz
+-----BEGIN PGP SIGNATURE-----
+Version: GnuPG v1
+
+iQEcBAEBAgAGBQJbOfTfAAoJELkDvxhhp8cdEyoH/jTPMLhjVrANm46iNIFHN5qE
+lwV5Q3tfSDIbsqazmn/XrxEK19cfHNE2zOvbNoAG2d6+iNaefEn30ufzDnMIMUAu
+y/1zPkn97tLmaG3BdC56aSsXfGdbekkU9uQ18m9fQ2fPcfGyejqgUccxtmB+/gmK
+Yszjiq+beZJiw85ptlom4NsWbrIDv2DkJ7zZIthyJcxsN8yUY0BgY5eO23GtpGf/
+yfv6+XyhuXcUWVUyM/DfoWmfEa5ogJ6NYbHUu9AwgaMIEWiXnJoCaD6kdl6NdUZ2
+6NXdRZxJXvwump73tcOP9cgAUuullmglZQyU0IQkrBqbZVfZQbDaggPyQY1dhTI=
+=a1Gc
+-----END PGP SIGNATURE-----
