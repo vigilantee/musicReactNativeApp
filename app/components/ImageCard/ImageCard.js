@@ -14,6 +14,8 @@ import searchMusic from '../../actions/searchMusic';
 
 import styles from './styles';
 import Grid from 'react-native-grid-component';
+import { MUSIC_AUTH_TOKEN, MUSIC_API_BASE, MUSIC_RESOLVE, MUSIC_RESOLVE_SUFFIX } from '../../constants'
+import MusicPlayer from './musicPlayer';
 
 class Card extends Component {
   constructor(props){
@@ -22,7 +24,9 @@ class Card extends Component {
       refreshing: false,
       data: [],
       query: '',
-      page: 1
+      page: 1,
+      currentMusic: '',
+      currentTitle: ''
     }
     this.props.searchMusic();
     this.row = -1;
@@ -36,8 +40,32 @@ class Card extends Component {
     },()=>this.props.searchMusic(results));
   }
 
+async resolveMusic(id='5a92249624a0f505728b98bb'){
+  apiUrl = `${MUSIC_API_BASE}${MUSIC_RESOLVE}${id}${MUSIC_RESOLVE_SUFFIX}`
+  user_token = MUSIC_AUTH_TOKEN
+  try {
+  const response  = await fetch(apiUrl, {
+    method: 'GET', 
+    headers: {
+        'Authorization': MUSIC_AUTH_TOKEN
+      }, 
+    });
+  const responseJson = await response.json();
+  this.setState({currentMusic: responseJson.data})
+  // ReactNativeAudioStreaming.play(responseJson.data, {showIniOSMediaCenter: true, showInAndroidNotifications: true});
+  this.setState({currentMusic:responseJson.data})
+  console.log('ye aaya promise aur resolve ho gya........', responseJson.data)
+  return responseJson.data;
+  } catch(error) {
+    console.error(error);
+  }
+}
+
   playMusic = (index) => {
     console.log('oh bc aa gya....', index);
+    this.setState({currentTitle:this.props.titleList[index]});
+    const resp = this.resolveMusic(this.props.idList[index]);
+    console.log('response aa gya aur ye resp hai ye...........', resp);
   }
 
   _renderItem = (url, i) => {
@@ -45,7 +73,7 @@ class Card extends Component {
       this.row+=1;
     const index=this.row*3 + i;
     return (
-      <TouchableOpacity size={30} style={[styles.col, {flex: 1,height: 160,margin: 1}]} key={i} onPress={()=>this.playMusic(i)}>
+      <TouchableOpacity size={30} style={[styles.col, {flex: 1,height: 160,margin: 1}]} key={i} onPress={()=>this.playMusic(index)}>
         <Image
           style={styles.image}
           source={url==='default'?require('../../assets/default.jpg'):{uri: url}}
@@ -58,6 +86,7 @@ class Card extends Component {
 
   render() {
     console.log('oh bc aa gya....', this.props.titleList)
+    // const def='https://mosaic-nativebyte-in.s3.ap-south-1.amazonaws.com/music/04%20Meher%20Hai%20Rab%20Di%20-%20Mika%20320Kbps.mp3?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAIEJOLVITN7HILT5A%2F20180729%2Fap-south-1%2Fs3%2Faws4_request&X-Amz-Date=20180729T071242Z&X-Amz-Expires=3600&X-Amz-Signature=77545cee4fca0cad3543f4e70b12ac4bd500d2c0768d78e03b94a366d6c7666e&X-Amz-SignedHeaders=host'
     this.row=-1;
     return (
       <View style={{paddingBottom:30, flex:1}}>
@@ -83,6 +112,12 @@ class Card extends Component {
         itemsPerRow={3}
         />
         }
+        {
+          this.state.currentMusic !== '' &&
+          <View>
+            <MusicPlayer title={this.state.currentTitle} url={this.state.currentMusic} />
+          </View>
+        }
       </View>
     )
   }
@@ -93,7 +128,8 @@ const mapStateToProps = (state) => {
     searchImage: state.searchImage.allSearchResults,
     searchMusic: state.searchMusic.allSearchResults,
     urlList: state.searchMusic.labelList,
-    titleList: state.searchMusic.titleList
+    titleList: state.searchMusic.titleList,
+    idList: state.searchMusic.idList
   };
  }
  
@@ -105,3 +141,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps,matchDispatchToProps)(Card);
+
