@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 
-import {StyleSheet, Text, TouchableOpacity, View, ScrollView, Alert} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View, Alert} from 'react-native';
 import Sound from 'react-native-sound';
 
 const styles = StyleSheet.create({
@@ -97,10 +97,10 @@ class MainView extends Component {
     super(props);
     Sound.setCategory('Playback', true);
     this.stopSoundLooped = () => {
+      this.props.stopMusic;
       if (!this.state.loopingSound) {
         return;
       }
-
       this.state.loopingSound.stop().release();
       this.setState({loopingSound: null, tests: {...this.state.tests, ['mp3 in bundle (looped)']: 'win'}});
     };
@@ -128,7 +128,7 @@ class MainView extends Component {
             return playSound(audioTests[0], this);
           }}
         />
-        <Feature title="Press To Stop The Music" buttonLabel={'STOP'} onPress={this.stopSoundLooped} />
+        <Feature title="Press To Stop The Music" buttonLabel={'STOP'} onPress={this.props.stopMusic} />
       </View>
     );
   }

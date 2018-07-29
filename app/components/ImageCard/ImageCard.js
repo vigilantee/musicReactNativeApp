@@ -26,7 +26,8 @@ class Card extends Component {
       query: '',
       page: 1,
       currentMusic: '',
-      currentTitle: ''
+      currentTitle: '',
+      playing: false
     }
     this.props.searchMusic();
     this.row = -1;
@@ -63,9 +64,14 @@ async resolveMusic(id='5a92249624a0f505728b98bb'){
 
   playMusic = (index) => {
     console.log('oh bc aa gya....', index);
-    this.setState({currentTitle:this.props.titleList[index]});
+    this.setState({currentTitle:this.props.titleList[index], playing:true});
     const resp = this.resolveMusic(this.props.idList[index]);
     console.log('response aa gya aur ye resp hai ye...........', resp);
+  }
+
+  stopMusic = () => {
+    console.log('aaya bhai stop me.....')
+    this.setState({playing:false})
   }
 
   _renderItem = (url, i) => {
@@ -113,9 +119,9 @@ async resolveMusic(id='5a92249624a0f505728b98bb'){
         />
         }
         {
-          this.state.currentMusic !== '' &&
+          this.state.currentMusic !== '' && this.state.playing &&
           <View>
-            <MusicPlayer title={this.state.currentTitle} url={this.state.currentMusic} />
+            <MusicPlayer title={this.state.currentTitle} url={this.state.currentMusic} stopMusic={this.stopMusic}/>
           </View>
         }
       </View>
