@@ -6,7 +6,9 @@ const initialState = {
     allSearchResults: [],
     query: 'raat+di+gedi',
     urlList: [],
-    labelList: []
+    labelList: [],
+    titleList: [],
+    idList: []
 }
 
 export default searchMusicReducer = (state = initialState, action) => {
@@ -16,16 +18,32 @@ export default searchMusicReducer = (state = initialState, action) => {
                 ...state,
                 isFetching: true,
                 error: false,
-                urlList: []
+                urlList: [],
+                labelList: [],
+                titleList: [],
+                idList: []
             }
         case GET_SEARCH_RESULT_SUCCESS_MUSIC:
             console.log('ye reducer hai .....data aa gyaa bhai.....', action.data);
-            var labelListImg = [];
+            const labelListImg = [];
+            const titleList = [];
+            const listID = [];
             action.data.map((obj)=>{
-                if(obj.label!=null)
-                    labelListImg.push(obj.label)
+                if(obj.label!=null && obj.filename!=null)
+                {
+                    labelListImg.push(obj.label);
+                    titleList.push(obj.filename);
+                }
+                else if(obj.filename!=null)
+                {
+                    labelListImg.push('default');
+                    titleList.push(obj.filename);
+                }
                 else
-                    labelListImg.push('default')
+                {
+                    titleList.push('No title Available')
+                }
+                listID.push(obj._id);
             })
             return{
                 ...state,
@@ -33,7 +51,9 @@ export default searchMusicReducer = (state = initialState, action) => {
                 error: false,
                 allSearchResults: action.data,
                 query: action.query,
-                labelList: labelListImg
+                labelList: labelListImg,
+                titleList: titleList,
+                idList: listID
             }
         case GET_SEARCH_RESULT_ERROR_MUSIC:
             return{

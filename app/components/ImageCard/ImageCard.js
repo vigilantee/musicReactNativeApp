@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
   Image,
   View,
-  TouchableOpacity
+  TouchableOpacity,
+  Text
 } from 'react-native';
 import Icon from "react-native-vector-icons/Feather";
 import SearchBar from 'react-native-searchbar';
@@ -24,6 +25,7 @@ class Card extends Component {
       page: 1
     }
     this.props.searchMusic();
+    this.row = -1;
   };
 
 
@@ -34,24 +36,29 @@ class Card extends Component {
     },()=>this.props.searchMusic(results));
   }
 
-  colInjector = (url, i) => {
-    console.log('meri maa ne bandha dora $$$$$$$$$$$$$$$$$$', url);
+  playMusic = (index) => {
+    console.log('oh bc aa gya....', index);
+  }
+
+  _renderItem = (url, i) => {
+    if(i%3===0)
+      this.row+=1;
+    const index=this.row*3 + i;
     return (
-      <View size={30} style={[styles.col, {flex: 1,height: 160,margin: 1}]} key={i}>
+      <TouchableOpacity size={30} style={[styles.col, {flex: 1,height: 160,margin: 1}]} key={i} onPress={()=>this.playMusic(i)}>
         <Image
           style={styles.image}
           source={url==='default'?require('../../assets/default.jpg'):{uri: url}}
         />
-      </View>
+        <Text numberOfLines = { 1 } ellipsizeMode = 'middle'>{this.props.titleList[index]}</Text>
+      </TouchableOpacity>
     )
   }
   _renderPlaceholder = i => <View style={styles.item} key={i} />;
-  _renderItem = (data, i) => (
-    <View style={[{ backgroundColor: '#ff0000' },{flex: 1,height: 160,margin: 1}]} key={i} />
-  );
 
   render() {
-    console.log('oh bc aa gya....', this.props.urlList)
+    console.log('oh bc aa gya....', this.props.titleList)
+    this.row=-1;
     return (
       <View style={{paddingBottom:30, flex:1}}>
         <View style={styles.header}>
@@ -70,10 +77,10 @@ class Card extends Component {
         {this.props.urlList.length > 0 &&
         <Grid
         style={{flex: 1}}
-        renderItem={this.colInjector}
+        renderItem={this._renderItem}
+        renderPlaceholder={this._renderPlaceholder}
         data={this.props.urlList}
         itemsPerRow={3}
-        renderPlaceholder={this._renderPlaceholder}
         />
         }
       </View>
@@ -85,7 +92,8 @@ const mapStateToProps = (state) => {
   return{
     searchImage: state.searchImage.allSearchResults,
     searchMusic: state.searchMusic.allSearchResults,
-    urlList: state.searchMusic.labelList
+    urlList: state.searchMusic.labelList,
+    titleList: state.searchMusic.titleList
   };
  }
  

@@ -37,10 +37,10 @@ export default getSearchResultsFromAPI = (query="raat di gedi") => {
       .then((responseJson) => {
         console.log('search result is ***---***---*----', responseJson.data)
         dispatch(getSearchResultsDataValue(responseJson.data, query))
-        responseJson.data.map((obj) => {
-          // resolveMusic(obj._id)
-          console.log('>>>>>>>>>>>>>>>>>', obj._id)
-        })
+        // responseJson.data.map((obj) => {
+        //   // resolveMusic(obj._id)
+        //   console.log('>>>>>>>>>>>>>>>>>', obj._id)
+        // })
       })
       .catch((error) => {
         dispatch(getSearchResultsDataFailure())
