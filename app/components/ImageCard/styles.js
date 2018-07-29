@@ -19,6 +19,14 @@ export default styles = StyleSheet.create({
       justifyContent: 'flex-end',
       alignItems: 'center'
   },
+  item: {
+    flex: 1,
+    height: 160,
+    margin: 1
+  },
+  list: {
+    flex: 1
+  },
   image : {
     width : 116,
     height: 140

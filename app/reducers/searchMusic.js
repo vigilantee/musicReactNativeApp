@@ -21,7 +21,12 @@ export default searchMusicReducer = (state = initialState, action) => {
         case GET_SEARCH_RESULT_SUCCESS_MUSIC:
             console.log('ye reducer hai .....data aa gyaa bhai.....', action.data);
             var labelListImg = [];
-            action.data.map((obj)=>labelListImg.push(obj.label))
+            action.data.map((obj)=>{
+                if(obj.label!=null)
+                    labelListImg.push(obj.label)
+                else
+                    labelListImg.push('default')
+            })
             return{
                 ...state,
                 isFetching: false,

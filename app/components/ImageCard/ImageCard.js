@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import {
-  FlatList,
   Image,
   View,
   TouchableOpacity
@@ -9,12 +8,11 @@ import Icon from "react-native-vector-icons/Feather";
 import SearchBar from 'react-native-searchbar';
 import { connect } from 'react-redux';
 import { bindActionCreators } from "redux";
-import getSearchResultsFromAPI from '../../actions/searchImage';
 import login from '../../actions/login';
 import searchMusic from '../../actions/searchMusic';
 
 import styles from './styles';
-import { Row, Column as Col, Grid} from 'react-native-responsive-grid'
+import Grid from 'react-native-grid-component';
 
 class Card extends Component {
   constructor(props){
@@ -33,35 +31,29 @@ class Card extends Component {
     this.setState({
       query: results,
       page: 1
-    },()=>this.props.searchMusic());
+    },()=>this.props.searchMusic(results));
   }
 
-  colInjector = (url) => {
+  colInjector = (url, i) => {
+    console.log('meri maa ne bandha dora $$$$$$$$$$$$$$$$$$', url);
     return (
-      <Col size={30} style={styles.col}>
+      <View size={30} style={[styles.col, {flex: 1,height: 160,margin: 1}]} key={i}>
         <Image
           style={styles.image}
-          source={{uri: url}}
+          source={url==='default'?require('../../assets/default.jpg'):{uri: url}}
         />
-      </Col>
+      </View>
     )
   }
-
-  rowInjector = (item,index) => {
-    let url = item.assets.preview.url;
-    if(index%3 != 0)
-      return;
-    return(<Row key={item.key} style={styles.row}>
-      {this.colInjector(this.props.urlList[index])}
-      {this.colInjector(this.props.urlList[index+1])}
-      {this.colInjector(this.props.urlList[index+2])}
-    </Row>
-    )
-  }
+  _renderPlaceholder = i => <View style={styles.item} key={i} />;
+  _renderItem = (data, i) => (
+    <View style={[{ backgroundColor: '#ff0000' },{flex: 1,height: 160,margin: 1}]} key={i} />
+  );
 
   render() {
+    console.log('oh bc aa gya....', this.props.urlList)
     return (
-      <View>
+      <View style={{paddingBottom:30, flex:1}}>
         <View style={styles.header}>
           <SearchBar
               ref={(ref) => this.searchBar = ref}
@@ -75,14 +67,15 @@ class Card extends Component {
             <Icon name={"search"} size ={27} style = {styles.icon}/>
           </TouchableOpacity>
         </View>
-        {this.props.searchImage.length > 5 && <FlatList
-          data={this.props.searchImage}
-          initialNumToRender={12}
-          renderItem={
-            ({ item, index }) => {
-              return(this.rowInjector(item,index))
-            }}
-        />}
+        {this.props.urlList.length > 0 &&
+        <Grid
+        style={{flex: 1}}
+        renderItem={this.colInjector}
+        data={this.props.urlList}
+        itemsPerRow={3}
+        renderPlaceholder={this._renderPlaceholder}
+        />
+        }
       </View>
     )
   }
@@ -91,7 +84,6 @@ class Card extends Component {
 const mapStateToProps = (state) => {
   return{
     searchImage: state.searchImage.allSearchResults,
-    // urlList: state.searchImage.urlList,
     searchMusic: state.searchMusic.allSearchResults,
     urlList: state.searchMusic.labelList
   };
@@ -99,10 +91,9 @@ const mapStateToProps = (state) => {
  
  const matchDispatchToProps = (dispatch) => {
   return bindActionCreators({
-    // getSearchResultsFromAPI: getSearchResultsFromAPI,
     login: login,
     searchMusic: searchMusic
   }, dispatch);
- }
- 
- export default connect(mapStateToProps,matchDispatchToProps)(Card);
+}
+
+export default connect(mapStateToProps,matchDispatchToProps)(Card);
